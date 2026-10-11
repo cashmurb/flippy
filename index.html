@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Flippy</title>
+  <meta name="description" content="Turn a PDF into a page-turning flipbook and share it by link, email, social media, embed code or QR code.">
+  <!--LEAF:HEAD-->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500;6..96,600;6..96,700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<!-- Icons -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 15V4M7.5 8.5 12 4l4.5 4.5M4 15v3.5A1.5 1.5 0 0 0 5.5 20h13a1.5 1.5 0 0 0 1.5-1.5V15"/></symbol>
+    <symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5.5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="18.5" r="2.5"/><path d="m8.2 10.8 7.6-4.1M8.2 13.2l7.6 4.1"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M4 17v1.5A1.5 1.5 0 0 0 5.5 20h13a1.5 1.5 0 0 0 1.5-1.5V17"/></symbol>
+    <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></symbol>
+    <symbol id="i-prev" viewBox="0 0 24 24"><path d="m14.5 6-6 6 6 6"/></symbol>
+    <symbol id="i-next" viewBox="0 0 24 24"><path d="m9.5 6 6 6-6 6"/></symbol>
+    <symbol id="i-first" viewBox="0 0 24 24"><path d="m17 6-6 6 6 6M7 6v12"/></symbol>
+    <symbol id="i-last" viewBox="0 0 24 24"><path d="m7 6 6 6-6 6M17 6v12"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="4" y="4" width="6.5" height="6.5" rx="1"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1"/></symbol>
+    <symbol id="i-zoom" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5 5M10.5 8v5M8 10.5h5"/></symbol>
+    <symbol id="i-sound" viewBox="0 0 24 24"><path d="M4 9.5v5h3.5L12 19V5L7.5 9.5H4zM15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></symbol>
+    <symbol id="i-mute" viewBox="0 0 24 24"><path d="M4 9.5v5h3.5L12 19V5L7.5 9.5H4zM16 9.5l5 5M21 9.5l-5 5"/></symbol>
+    <symbol id="i-expand" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="1.5"/><path d="m4 7 8 6 8-6"/></symbol>
+    <symbol id="i-image" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="1.5"/><circle cx="9" cy="9.5" r="1.5"/><path d="m4 17 5-5 4 4 2.5-2.5L20 18"/></symbol>
+    <symbol id="i-code" viewBox="0 0 24 24"><path d="m8.5 7-5 5 5 5M15.5 7l5 5-5 5M13.5 5l-3 14"/></symbol>
+    <symbol id="i-qr" viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx=".5"/><rect x="14" y="4" width="6" height="6" rx=".5"/><rect x="4" y="14" width="6" height="6" rx=".5"/><path d="M14 14h2v2h-2zM18 18h2v2h-2zM14 18.5h1.5M18.5 14H20"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8.5" y="8.5" width="11" height="11" rx="1.5"/><path d="M15.5 8.5V6a1.5 1.5 0 0 0-1.5-1.5H6A1.5 1.5 0 0 0 4.5 6v8A1.5 1.5 0 0 0 6 15.5h2.5"/></symbol>
+    <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v4.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 4 18.5v-11A1.5 1.5 0 0 1 5.5 6H10"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3.5H7A1.5 1.5 0 0 0 5.5 5v14A1.5 1.5 0 0 0 7 20.5h10a1.5 1.5 0 0 0 1.5-1.5V8L14 3.5z"/><path d="M14 3.5V8h4.5"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M12 6.5C10 5 7 4.5 3.5 5v13c3.5-.5 6.5 0 8.5 1.5 2-1.5 5-2 8.5-1.5V5C17 4.5 14 5 12 6.5zM12 6.5v13"/></symbol>
+    <symbol id="i-stack" viewBox="0 0 24 24"><rect x="7.5" y="3.5" width="12" height="13" rx="1.5"/><path d="M4.5 7.5v11A1.5 1.5 0 0 0 6 20h10"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+  </defs>
+</svg>
+
+<div class="app" id="app">
+  <header class="topbar">
+    <div class="doc" aria-live="polite">
+      <div class="doc-title" id="docTitle">Opening…</div>
+      <div class="doc-sub"><span id="docAuthor"></span></div>
+    </div>
+    <div class="top-actions">
+      <button class="btn" id="btnUpload" type="button" data-creator>
+        <svg class="icon" aria-hidden="true"><use href="#i-upload"/></svg><span class="btn-label">Upload PDF</span>
+      </button>
+      <button class="btn btn-icon" id="btnSettings" type="button" data-creator aria-label="Controls" title="Controls">
+        <svg class="icon" aria-hidden="true"><use href="#i-sliders"/></svg>
+      </button>
+      <button class="btn btn-icon" id="btnDownload" type="button" data-download aria-label="Download" title="Download">
+        <svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>
+      </button>
+      <button class="btn btn-primary" id="btnShare" type="button">
+        <svg class="icon" aria-hidden="true"><use href="#i-share"/></svg><span>Share</span>
+      </button>
+      <a class="made-with" id="madeWith" href="./" data-reader>Make your own</a>
+    </div>
+    <input type="file" id="fileInput" accept="application/pdf,.pdf" hidden>
+  </header>
+
+  <main class="stage" id="stage" data-tone="dark">
+    <div class="book-frame" id="bookFrame"></div>
+
+    <button class="nav-arrow nav-prev" id="arrowPrev" type="button" aria-label="Previous page">
+      <svg class="icon" aria-hidden="true"><use href="#i-prev"/></svg>
+    </button>
+    <button class="nav-arrow nav-next" id="arrowNext" type="button" aria-label="Next page">
+      <svg class="icon" aria-hidden="true"><use href="#i-next"/></svg>
+    </button>
+
+    <div class="empty-state" id="emptyState" data-creator>
+      <svg class="icon" aria-hidden="true"><use href="#i-upload"/></svg>
+      <h2>Upload a magazine</h2>
+      <p>Choose a PDF to start your flipbook.</p>
+      <button class="btn btn-primary" id="emptyUpload" type="button">Choose PDF</button>
+    </div>
+
+    <div class="overlay-card loading" id="loading" hidden>
+      <div class="loading-label" id="loadingLabel">Opening PDF…</div>
+      <div class="bar" id="loadingBarWrap"><span id="loadingBar"></span></div>
+    </div>
+
+    <div class="overlay-card error-card" id="errorCard" hidden role="alert">
+      <h2 class="error-title" id="errorTitle">This PDF couldn’t be opened</h2>
+      <p class="error-text" id="errorText"></p>
+      <div class="row-actions">
+        <button class="btn btn-primary" id="errorUpload" type="button" data-creator>Choose another PDF</button>
+        <a class="btn" id="errorOpenPdf" href="#" target="_blank" rel="noopener" hidden>Open the PDF directly</a>
+        <button class="btn" id="errorDismiss" type="button" data-creator>Back to the book</button>
+      </div>
+    </div>
+  </main>
+
+  <section class="thumbs" id="thumbs" hidden aria-label="All pages">
+    <div class="thumbs-track" id="thumbsTrack"></div>
+  </section>
+
+  <footer class="toolbar" id="toolbar">
+    <div class="tb-group">
+      <button class="tb-btn hide-sm" id="tbFirst" type="button" aria-label="First page" title="First page (Home)"><svg class="icon" aria-hidden="true"><use href="#i-first"/></svg></button>
+      <button class="tb-btn" id="tbPrev" type="button" aria-label="Previous page" title="Previous page (←)"><svg class="icon" aria-hidden="true"><use href="#i-prev"/></svg></button>
+      <div class="folio">
+        <label for="pageInput" class="sr-only">Go to page</label>
+        <input id="pageInput" class="folio-input" type="text" inputmode="numeric" autocomplete="off" value="1">
+        <span class="folio-total" id="pageTotal">/ 0</span>
+      </div>
+      <button class="tb-btn" id="tbNext" type="button" aria-label="Next page" title="Next page (→)"><svg class="icon" aria-hidden="true"><use href="#i-next"/></svg></button>
+      <button class="tb-btn hide-sm" id="tbLast" type="button" aria-label="Last page" title="Last page (End)"><svg class="icon" aria-hidden="true"><use href="#i-last"/></svg></button>
+    </div>
+
+    <div class="tb-progress" id="renderProgress" hidden>
+      <span class="tb-progress-bar"><span id="renderProgressBar"></span></span>
+      <span class="tb-progress-text" id="renderProgressText"></span>
+    </div>
+
+    <div class="tb-group">
+      <button class="tb-btn" id="tbThumbs" type="button" aria-pressed="false" aria-label="Show all pages" title="All pages (T)"><svg class="icon" aria-hidden="true"><use href="#i-grid"/></svg></button>
+      <button class="tb-btn" id="tbZoom" type="button" aria-label="Zoom in on the page" title="Zoom (Z)"><svg class="icon" aria-hidden="true"><use href="#i-zoom"/></svg></button>
+      <button class="tb-btn" id="tbSound" type="button" aria-pressed="true" aria-label="Page-turn sound" title="Page-turn sound"><svg class="icon" aria-hidden="true"><use id="soundIcon" href="#i-sound"/></svg></button>
+      <button class="tb-btn" id="tbFullscreen" type="button" aria-label="Full screen" title="Full screen (F)"><svg class="icon" aria-hidden="true"><use href="#i-expand"/></svg></button>
+      <a class="tb-open" id="embedOpen" href="#" target="_blank" rel="noopener" hidden>Open <svg class="icon" aria-hidden="true"><use href="#i-external"/></svg></a>
+    </div>
+  </footer>
+</div>
+
+<div class="scrim" id="scrim" hidden></div>
+
+<!-- Share panel -->
+<aside class="drawer" id="shareDrawer" role="dialog" aria-modal="true" aria-labelledby="shareTitle" aria-hidden="true">
+  <div class="drawer-head">
+    <h2 class="drawer-title" id="shareTitle">Share</h2>
+    <button class="btn btn-icon btn-ghost" type="button" data-close aria-label="Close"><svg class="icon" aria-hidden="true"><use href="#i-close"/></svg></button>
+  </div>
+  <div class="tabs" role="tablist" aria-label="Ways to share">
+    <button role="tab" type="button" data-tab="link" aria-selected="true"><svg class="icon" aria-hidden="true"><use href="#i-link"/></svg>Link</button>
+    <button role="tab" type="button" data-tab="social" aria-selected="false"><svg class="icon" aria-hidden="true"><use href="#i-share"/></svg>Social</button>
+    <button role="tab" type="button" data-tab="email" aria-selected="false"><svg class="icon" aria-hidden="true"><use href="#i-mail"/></svg>Email &amp; image</button>
+    <button role="tab" type="button" data-tab="embed" aria-selected="false"><svg class="icon" aria-hidden="true"><use href="#i-code"/></svg>Embed</button>
+    <button role="tab" type="button" data-tab="qr" aria-selected="false"><svg class="icon" aria-hidden="true"><use href="#i-qr"/></svg>QR code</button>
+    <button role="tab" type="button" data-tab="download" aria-selected="false" data-download><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>Download</button>
+  </div>
+
+  <div class="drawer-body">
+    <!-- Link -->
+    <section class="panel" data-panel="link">
+      <div id="linkReady" hidden>
+        <label class="field-label" for="shareUrl">Flipbook link</label>
+        <div class="input-row">
+          <input id="shareUrl" class="input mono" type="text" readonly>
+          <button class="btn btn-primary" id="copyLink" type="button"><svg class="icon" aria-hidden="true"><use href="#i-copy"/></svg>Copy</button>
+        </div>
+        <div class="row-actions">
+          <a class="btn" id="openLink" href="#" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-external"/></svg>Open</a>
+          <label class="check"><input type="checkbox" id="linkAtPage"> Open at the current page</label>
+        </div>
+        <p class="hint" id="linkHint"></p>
+        <button class="link-btn" id="linkReset" type="button">Use a different link</button>
+      </div>
+
+      <div id="linkSetup">
+        <p class="lede">Readers open your flipbook from the web, so it needs a home online. Choose how to host it.</p>
+
+        <div class="option" id="optPdfUrl">
+          <div class="option-head"><span class="option-key">A</span><h3>My PDF is already online</h3></div>
+          <p>Paste a public link to the PDF file. The host has to allow other sites to load it (CORS). GitHub Pages, Netlify, S3 and most CDNs do.</p>
+          <label class="sr-only" for="pdfUrlInput">Public PDF address</label>
+          <div class="input-row">
+            <input id="pdfUrlInput" class="input" type="url" placeholder="https://example.com/my-book.pdf" autocomplete="off">
+            <button class="btn" id="pdfUrlBtn" type="button">Create link</button>
+          </div>
+          <p class="field-msg" id="pdfUrlMsg" hidden></p>
+        </div>
+
+        <div class="option" id="optHosted">
+          <div class="option-head"><span class="option-key">B</span><h3>Host the flipbook file yourself</h3></div>
+          <ol class="steps">
+            <li>Download the flipbook as a single HTML file.</li>
+            <li>Upload it to any web host: Netlify Drop, GitHub Pages, Cloudflare Pages or your own site.</li>
+            <li>Paste its address here.</li>
+          </ol>
+          <button class="btn" id="exportForHost" type="button"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg>Download flipbook (.html)</button>
+          <label class="sr-only" for="hostedUrlInput">Address of your hosted flipbook</label>
+          <div class="input-row">
+            <input id="hostedUrlInput" class="input" type="url" placeholder="https://yoursite.com/my-book.html" autocomplete="off">
+            <button class="btn" id="hostedUrlBtn" type="button">Use link</button>
+          </div>
+          <p class="field-msg" id="hostedUrlMsg" hidden></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Social -->
+    <section class="panel" data-panel="social" hidden>
+      <div class="needs-link" data-needs-link>
+        <p>Social posts need a link to your flipbook.</p>
+        <button class="btn btn-primary" type="button" data-goto="link">Set up a link</button>
+      </div>
+      <div data-has-link>
+        <label class="field-label" for="postText">Post text</label>
+        <textarea id="postText" class="input" rows="3"></textarea>
+        <div class="social-grid" id="socialGrid"></div>
+        <button class="btn btn-wide" id="nativeShare" type="button" hidden><svg class="icon" aria-hidden="true"><use href="#i-share"/></svg>More apps on this device</button>
+        <p class="hint">Instagram and TikTok don’t accept links in posts. Download the square or story image from <button class="link-btn" type="button" data-goto="email">Email &amp; image</button> and put the link in your bio.</p>
+      </div>
+    </section>
+
+    <!-- Email and image -->
+    <section class="panel" data-panel="email" hidden>
+      <div class="seg" id="cardFormat" role="radiogroup" aria-label="Image format">
+        <button type="button" role="radio" data-format="landscape" aria-checked="true">Landscape <span class="seg-dim">1200×630</span></button>
+        <button type="button" role="radio" data-format="square" aria-checked="false">Square <span class="seg-dim">1080×1080</span></button>
+        <button type="button" role="radio" data-format="story" aria-checked="false">Story <span class="seg-dim">1080×1920</span></button>
+      </div>
+      <div class="card-preview" id="cardPreview"><canvas id="cardCanvas" width="1200" height="630" aria-label="Share image preview"></canvas></div>
+      <div class="row-actions">
+        <button class="btn btn-primary" id="cardDownload" type="button"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>Download image</button>
+        <button class="btn" id="cardCopy" type="button"><svg class="icon" aria-hidden="true"><use href="#i-copy"/></svg>Copy image</button>
+        <button class="btn" id="cardShare" type="button" hidden><svg class="icon" aria-hidden="true"><use href="#i-share"/></svg>Share image</button>
+      </div>
+      <p class="hint" id="cardHint">The cover, magazine title, author and page count.</p>
+
+      <h3 class="sec-title">Send by email</h3>
+      <div class="needs-link compact" data-needs-link>
+        <p>Set up a link first so readers can open the flipbook from your email.</p>
+        <button class="btn" type="button" data-goto="link">Set up a link</button>
+      </div>
+      <div data-has-link class="stack">
+        <div>
+          <label class="field-label" for="mailTo">To</label>
+          <input id="mailTo" class="input" type="email" placeholder="Optional, e.g. subscribers@example.com" autocomplete="off">
+        </div>
+        <div>
+          <label class="field-label" for="mailSubject">Subject</label>
+          <input id="mailSubject" class="input" type="text">
+        </div>
+        <div>
+          <label class="field-label" for="mailBody">Message</label>
+          <textarea id="mailBody" class="input" rows="6"></textarea>
+        </div>
+        <div class="row-actions">
+          <a class="btn btn-primary" id="mailApp" href="#"><svg class="icon" aria-hidden="true"><use href="#i-mail"/></svg>Email app</a>
+          <a class="btn" id="mailGmail" href="#" target="_blank" rel="noopener">Gmail</a>
+          <a class="btn" id="mailOutlook" href="#" target="_blank" rel="noopener">Outlook</a>
+          <button class="btn" id="mailCopy" type="button"><svg class="icon" aria-hidden="true"><use href="#i-copy"/></svg>Copy message</button>
+        </div>
+        <p class="hint">For a richer email, copy the share image and paste it above the link in your message.</p>
+      </div>
+    </section>
+
+    <!-- Embed -->
+    <section class="panel" data-panel="embed" hidden>
+      <div class="needs-link" data-needs-link>
+        <p>Embedding needs a link to your flipbook.</p>
+        <button class="btn btn-primary" type="button" data-goto="link">Set up a link</button>
+      </div>
+      <div data-has-link class="stack">
+        <div class="field-grid">
+          <div>
+            <label class="field-label" for="embedWidth">Width</label>
+            <select id="embedWidth" class="input">
+              <option value="100%">Fill the column</option>
+              <option value="960">960 px</option>
+              <option value="800">800 px</option>
+              <option value="640">640 px</option>
+            </select>
+          </div>
+          <div>
+            <label class="field-label" for="embedHeight">Height</label>
+            <select id="embedHeight" class="input">
+              <option value="480">480 px</option>
+              <option value="600" selected>600 px</option>
+              <option value="720">720 px</option>
+              <option value="860">860 px</option>
+            </select>
+          </div>
+        </div>
+        <label class="check"><input type="checkbox" id="embedAtPage"> Start at the current page</label>
+        <div>
+          <label class="field-label" for="embedCode">Embed code</label>
+          <textarea id="embedCode" class="input mono code" rows="5" readonly></textarea>
+        </div>
+        <div class="row-actions">
+          <button class="btn btn-primary" id="embedCopy" type="button"><svg class="icon" aria-hidden="true"><use href="#i-copy"/></svg>Copy code</button>
+        </div>
+        <p class="hint">Paste the code into an HTML or Embed block in WordPress, Squarespace, Wix, Webflow, Ghost or Shopify. Notion and Medium take the plain link.</p>
+      </div>
+    </section>
+
+    <!-- QR code -->
+    <section class="panel" data-panel="qr" hidden>
+      <div class="needs-link" data-needs-link>
+        <p>A QR code points to your flipbook’s link.</p>
+        <button class="btn btn-primary" type="button" data-goto="link">Set up a link</button>
+      </div>
+      <div data-has-link class="stack">
+        <div class="qr-preview"><canvas id="qrCanvas" width="600" height="600" aria-label="QR code preview"></canvas></div>
+        <div class="field-grid three">
+          <div>
+            <label class="field-label" for="qrFg">Code</label>
+            <input id="qrFg" class="input color" type="color" value="#14161b">
+          </div>
+          <div>
+            <label class="field-label" for="qrBg">Background</label>
+            <input id="qrBg" class="input color" type="color" value="#ffffff">
+          </div>
+          <div>
+            <label class="field-label" for="qrSize">Size</label>
+            <select id="qrSize" class="input">
+              <option value="512">512 px</option>
+              <option value="1024" selected>1024 px</option>
+              <option value="2048">2048 px, print</option>
+            </select>
+          </div>
+        </div>
+        <label class="check"><input type="checkbox" id="qrCaption" checked> Print the title under the code</label>
+        <div class="row-actions">
+          <button class="btn btn-primary" id="qrPng" type="button"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>Download PNG</button>
+          <button class="btn" id="qrSvg" type="button">Download SVG</button>
+        </div>
+        <p class="hint">Use it on posters, back covers, flyers and event signs. Keep dark code on a light background and scan a test print before a big run.</p>
+      </div>
+    </section>
+
+    <!-- Download -->
+    <section class="panel" data-panel="download" hidden>
+      <div class="field-row">
+        <label class="field-label" for="dlQuality">Image quality</label>
+        <select id="dlQuality" class="input input-inline">
+          <option value="screen">Screen (smaller files)</option>
+          <option value="high">High (sharp for zooming)</option>
+        </select>
+      </div>
+      <ul class="dl-list">
+        <li id="dlPdfRow">
+          <span class="dl-icon"><svg class="icon" aria-hidden="true"><use href="#i-file"/></svg></span>
+          <span class="dl-text"><strong>Original PDF</strong><span id="dlPdfMeta">The file you uploaded, unchanged.</span></span>
+          <button class="btn" id="dlPdf" type="button">Download</button>
+        </li>
+        <li>
+          <span class="dl-icon"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span>
+          <span class="dl-text"><strong>Flipbook (.html)</strong><span>One file with the page-turn viewer inside. Opens offline, and works on any web host.</span></span>
+          <button class="btn" id="dlHtml" type="button">Download</button>
+        </li>
+        <li>
+          <span class="dl-icon"><svg class="icon" aria-hidden="true"><use href="#i-stack"/></svg></span>
+          <span class="dl-text"><strong>Page images (.zip)</strong><span>Every page as a numbered JPEG.</span></span>
+          <button class="btn" id="dlZip" type="button">Download</button>
+        </li>
+        <li>
+          <span class="dl-icon"><svg class="icon" aria-hidden="true"><use href="#i-image"/></svg></span>
+          <span class="dl-text"><strong>Cover image (.jpg)</strong><span>For catalogues, shops and newsletters.</span></span>
+          <button class="btn" id="dlCover" type="button">Download</button>
+        </li>
+      </ul>
+      <div class="bar" id="dlBar" hidden><span></span></div>
+      <p class="hint" id="dlStatus" aria-live="polite"></p>
+    </section>
+  </div>
+</aside>
+
+<!-- Settings panel -->
+<aside class="drawer" id="settingsDrawer" role="dialog" aria-modal="true" aria-labelledby="settingsTitle" aria-hidden="true">
+  <div class="drawer-head">
+    <h2 class="drawer-title" id="settingsTitle">Controls</h2>
+    <button class="btn btn-icon btn-ghost" type="button" data-close aria-label="Close"><svg class="icon" aria-hidden="true"><use href="#i-close"/></svg></button>
+  </div>
+  <div class="drawer-body stack">
+    <div>
+      <label class="field-label" for="setTitle">Title</label>
+      <input id="setTitle" class="input settings-text-input" type="text" maxlength="140">
+    </div>
+    <div>
+      <label class="field-label" for="setAuthor">Author or publisher</label>
+      <input id="setAuthor" class="input settings-text-input" type="text" maxlength="140">
+    </div>
+
+    <fieldset class="fieldset">
+      <legend class="field-label">Backdrop</legend>
+      <div class="swatches" id="bgSwatches">
+        <button type="button" class="swatch" data-bg="lighttable" aria-label="Day"><span style="--sw:#FEFAF3"></span>Day</button>
+        <button type="button" class="swatch" data-bg="midnight" aria-label="Midnight"><span style="--sw:#000000"></span>Midnight</button>
+        <label class="swatch swatch-custom" data-bg="custom"><input type="color" id="bgCustom" value="#3a3f4a" aria-label="Custom backdrop color"><span class="sw-custom"></span>Custom</label>
+      </div>
+    </fieldset>
+
+    <fieldset class="fieldset">
+      <legend class="field-label">Binding</legend>
+      <label class="switch"><input type="checkbox" id="setCover" checked><span class="switch-ui" aria-hidden="true"></span><span>Hard cover: the first and last pages sit on their own, like a printed book</span></label>
+    </fieldset>
+
+    <fieldset class="fieldset">
+      <legend class="field-label">Page turn</legend>
+      <div class="seg" id="setSpeed" role="radiogroup" aria-label="Page-turn speed">
+        <button type="button" role="radio" data-speed="500" aria-checked="false">Quick</button>
+        <button type="button" role="radio" data-speed="850" aria-checked="true">Natural</button>
+        <button type="button" role="radio" data-speed="1300" aria-checked="false">Slow</button>
+      </div>
+      <label class="switch"><input type="checkbox" id="setSound" checked><span class="switch-ui" aria-hidden="true"></span><span>Paper sound when a page turns</span></label>
+    </fieldset>
+
+    <fieldset class="fieldset">
+      <legend class="field-label">Readers</legend>
+      <label class="switch"><input type="checkbox" id="setAllowDl" checked><span class="switch-ui" aria-hidden="true"></span><span>Let readers download the book</span></label>
+    </fieldset>
+
+    <p class="hint">These settings go with your share link, embed code and downloaded flipbook.</p>
+  </div>
+</aside>
+
+<!-- Zoom view -->
+<div class="zoom" id="zoom" hidden role="dialog" aria-modal="true" aria-label="Zoomed page view">
+  <div class="zoom-bar">
+    <span class="zoom-label" id="zoomLabel"></span>
+    <div class="zoom-ctrls">
+      <button class="zoom-btn" id="zoomOut" type="button" aria-label="Zoom out">−</button>
+      <span class="zoom-level" id="zoomLevel">150%</span>
+      <button class="zoom-btn" id="zoomIn" type="button" aria-label="Zoom in">+</button>
+      <button class="zoom-btn" id="zoomClose" type="button" aria-label="Close zoom"><svg class="icon" aria-hidden="true"><use href="#i-close"/></svg></button>
+    </div>
+  </div>
+  <div class="zoom-scroll" id="zoomScroll"><div class="zoom-content" id="zoomContent"></div></div>
+</div>
+
+<div class="drop-overlay" id="dropOverlay" hidden>
+  <div class="drop-target">
+    <svg class="icon" aria-hidden="true"><use href="#i-upload"/></svg>
+    <strong>Drop your PDF</strong>
+    <span>Books, magazines, catalogues and photobooks</span>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script src="js/util.js"></script>
+<script src="js/pdf-source.js"></script>
+<script src="js/book.js"></script>
+<script src="js/export.js"></script>
+<script src="js/share.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
