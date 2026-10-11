@@ -713,6 +713,13 @@ body:not(.is-reader) [data-reader] { display: none !important; }
 .is-embed .nav-prev { left: 6px; }
 .is-embed .nav-next { right: 6px; }
 .is-embed .nav-arrow { width: 40px; height: 40px; }
+.is-reader-page .app { grid-template-rows: 1fr; }
+.is-reader-page .topbar,
+.is-reader-page .thumbs,
+.is-reader-page .toolbar,
+.is-reader-page .nav-arrow { display: none !important; }
+.is-reader-page .stage { min-height: 100vh; }
+.is-reader-page .book-frame { inset: 0; }
 
 /* Small screens */
 @media (max-width: 760px) {

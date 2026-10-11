@@ -28,6 +28,9 @@ with **Upload PDF**.
 The main controls let you change the title, author, backdrop, page turning,
 sound, hard cover, and reader download settings.
 
+The studio header includes **Reader view**. Use it to open the current
+magazine without the studio interface.
+
 ## Share the magazine
 
 The Share panel can create:
@@ -38,6 +41,9 @@ The Share panel can create:
 - Landscape, square, and story images
 - Embed code
 - QR codes
+
+Shared links open `reader.html`, a clean magazine view without the studio
+header, controls, settings, or share panel.
 
 To share a PDF by URL, the PDF must be hosted online at a public address such
 as `https://example.com/magazine.pdf`. The host must allow other websites to

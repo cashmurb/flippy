@@ -9,7 +9,7 @@
  * defaultPdf PDF opened for visitors who open the app without a book link.
  */
 window.LEAF_CONFIG = {
-  appUrl: '',
+  appUrl: 'https://cashmurb.github.io/flippy/',
   brand: 'Flippy',
   maxMb: 300,
   defaultPdf: 'intimacy.pdf'

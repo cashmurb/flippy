@@ -575,6 +575,15 @@
     fileInput.addEventListener('change', () => loadPdfFile(fileInput.files[0]));
 
     $('#btnShare').addEventListener('click', () => openDrawer('shareDrawer', 'link'));
+    $('#btnReader').addEventListener('click', (e) => {
+      const url = L.Share.readerUrl({ page: state.current });
+      if (!url) {
+        e.preventDefault();
+        L.toast('Reader view needs a public PDF link.', 'error');
+        return;
+      }
+      e.currentTarget.href = url;
+    });
     $('#btnDownload').addEventListener('click', () => openDrawer('shareDrawer', 'download'));
     $('#btnSettings').addEventListener('click', () => openDrawer('settingsDrawer'));
     $('#scrim').addEventListener('click', () => closeDrawers());
@@ -718,18 +727,31 @@
       const open = $('#embedOpen');
       open.hidden = !(state.embed && state.link);
       if (state.link) open.href = L.Share.linkUrl({ page: state.current });
+      updateReaderLink();
     });
     L.bus.on('page', () => {
       if (state.embed && state.link) $('#embedOpen').href = L.Share.linkUrl({ page: state.current });
+      updateReaderLink();
     });
+    L.bus.on('book', updateReaderLink);
+    L.bus.on('meta', updateReaderLink);
+  }
+
+  function updateReaderLink() {
+    const button = $('#btnReader');
+    if (!button) return;
+    const url = L.Share.readerUrl({ page: state.current });
+    button.href = url || '#';
+    button.setAttribute('aria-disabled', String(!url));
+    button.tabIndex = url ? 0 : -1;
   }
 
   function setReader() {
     state.mode = 'reader';
     document.body.classList.add('is-reader');
     const base = L.appBaseUrl ? L.appBaseUrl() : null;
-    $('#madeWith').href = base || './';
-    $('#brandLink').href = base || './';
+    const madeWith = $('#madeWith');
+    if (madeWith) madeWith.href = base || './';
   }
 
   /* Startup */
@@ -737,9 +759,11 @@
     const q = new URLSearchParams(location.search);
     state.embed = q.get('embed') === '1';
     document.body.classList.toggle('is-embed', state.embed);
+    document.body.classList.toggle('is-reader-page', q.get('reader') === '1');
     const startPage = Math.max(0, (parseInt(q.get('page'), 10) || 1) - 1);
     wireUI();
     L.Share.init();
+    if (q.get('reader') === '1') setReader();
     if (!window.St || !window.St.PageFlip) {
       $('#errorTitle').textContent = 'The page-turn engine didn’t load';
       $('#errorText').textContent = 'Check your internet connection (the viewer loads two small libraries from a CDN) and reload the page.';

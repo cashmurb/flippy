@@ -51,6 +51,22 @@
     if (extra.embed) url.searchParams.set('embed', '1');
     return url.toString();
   };
+  S.readerUrl = function (extra = {}) {
+    if (L.state.link) return S.linkUrl(extra);
+    const source = L.state.source;
+    let pdf = source && source.pdfUrl;
+    const base = L.readerBaseUrl();
+    if (!pdf || !base) return null;
+    if (source.kind === 'url' && !/^https?:$/i.test(new URL(pdf).protocol) && L.config.defaultPdf) {
+      pdf = new URL(L.config.defaultPdf, L.config.appUrl || document.baseURI).toString();
+    }
+    const url = new URL(base);
+    url.searchParams.set('pdf', pdf);
+    const params = L.metaParams();
+    Object.keys(params).forEach((key) => url.searchParams.set(key, params[key]));
+    if (extra.page > 0) url.searchParams.set('page', String(extra.page + 1));
+    return url.toString();
+  };
   S.coverImageUrl = function () {
     return '';
   };
@@ -84,6 +100,11 @@
     return location.origin + path;
   };
 
+  L.readerBaseUrl = function () {
+    const base = L.appBaseUrl();
+    return base ? new URL('reader.html', base).toString() : null;
+  };
+
   function renderLinkTab() {
     const st = L.state;
     const has = !!st.link;
@@ -107,7 +128,7 @@
     const v = $('#pdfUrlInput').value.trim();
     const u = validHttpUrl(v);
     if (!u) return setMsg(msg, 'Enter the full address of the PDF, starting with https://', 'error');
-    const base = L.appBaseUrl();
+    const base = L.readerBaseUrl();
     if (!base) {
       return setMsg(msg, 'Viewer links need Leafwork itself to be online. Host this folder (or set appUrl in config.js), then try again. Option C works without that.', 'error');
     }
