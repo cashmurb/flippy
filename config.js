@@ -6,11 +6,11 @@
  *          Leave empty to use the address the page was opened from.
  *
  * maxMb      Largest PDF the app accepts, in megabytes.
- * defaultPdf PDF opened for visitors who open the app without a book link.
+ * defaultPdf Optional public PDF opened when the app starts.
  */
 window.LEAF_CONFIG = {
   appUrl: 'https://cashmurb.github.io/flippy/',
   brand: 'Flippy',
   maxMb: 300,
-  defaultPdf: 'intimacy.pdf'
+  defaultPdf: ''
 };

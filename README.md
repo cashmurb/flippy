@@ -14,8 +14,9 @@ python3 -m http.server 8080
 
 Then visit `http://localhost:8080`.
 
-The included `intimacy.pdf` opens by default. You can also upload another PDF
-with **Upload PDF**.
+Use **Upload PDF** to choose your own magazine. You can also drag a PDF onto
+the app. The selected file is read in your browser and is not uploaded to
+GitHub or stored by the app.
 
 ## Customize the app
 
@@ -23,7 +24,7 @@ with **Upload PDF**.
 - `css/styles.css` contains colors, fonts, spacing, and layout.
 - `js/app.js` controls the viewer, settings, and PDF loading.
 - `js/share.js` controls links, email, images, social sharing, and QR codes.
-- `config.js` contains the app name, limits, and default PDF.
+- `config.js` contains the app name, file limit, and optional default PDF.
 
 The main controls let you change the title, author, backdrop, page turning,
 sound, hard cover, and reader download settings.
@@ -48,6 +49,11 @@ header, controls, settings, or share panel.
 To share a PDF by URL, the PDF must be hosted online at a public address such
 as `https://example.com/magazine.pdf`. The host must allow other websites to
 load the file.
+
+Uploading a PDF from your computer is useful for previewing and editing it.
+For a public reader link, upload the PDF to a file host first, then paste its
+public URL into the Share panel. GitHub Pages can host the PDF if you add it
+to the repository, but it is not required.
 
 ## Download options
 
