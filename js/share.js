@@ -110,7 +110,7 @@
 
   L.readerBaseUrl = function () {
     const base = L.appBaseUrl();
-    return base ? new URL('reader.html', base).toString() : null;
+    return base ? new URL('reader/', base).toString() : null;
   };
 
   function renderLinkTab() {

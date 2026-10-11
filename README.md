@@ -46,7 +46,7 @@ The Share panel can create:
 - Embed code
 - QR codes
 
-Shared links open `reader.html`, a clean magazine view without the studio
+Shared links open `/reader/`, a clean magazine view without the studio
 header, controls, settings, or share panel.
 
 To share a PDF by URL, the PDF must be hosted online at a public address such
@@ -59,7 +59,7 @@ public URL into the Share panel. GitHub Pages can host the PDF if you add it
 to the repository. The configured default PDF can use the shorter link:
 
 ```text
-https://cashmurb.github.io/flippy/reader.html
+https://cashmurb.github.io/flippy/reader/
 ```
 
 Other PDFs use a longer link because their PDF address and settings are
