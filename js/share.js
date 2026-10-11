@@ -36,6 +36,14 @@
     let url;
     try {
       if (l.kind === 'pdfurl') {
+        const defaultPdf = L.config.defaultPdf
+          ? new URL(L.config.defaultPdf, L.config.appUrl || document.baseURI).toString()
+          : '';
+        if (l.pdfUrl === defaultPdf && !extra.embed) {
+          url = new URL(L.readerBaseUrl());
+          if (extra.page > 0) url.searchParams.set('page', String(extra.page + 1));
+          return url.toString();
+        }
         url = new URL(l.base);
         url.search = '';
         url.searchParams.set('pdf', l.pdfUrl);

@@ -18,6 +18,9 @@ Use **Upload PDF** to choose your own magazine. You can also drag a PDF onto
 the app. The selected file is read in your browser and is not uploaded to
 GitHub or stored by the app.
 
+The deployed app uses `intimacy.pdf` as its default magazine. Replace
+`defaultPdf` in `config.js` if you want a different PDF.
+
 ## Customize the app
 
 - `index.html` contains the page structure and visible labels.
@@ -53,7 +56,14 @@ load the file.
 Uploading a PDF from your computer is useful for previewing and editing it.
 For a public reader link, upload the PDF to a file host first, then paste its
 public URL into the Share panel. GitHub Pages can host the PDF if you add it
-to the repository, but it is not required.
+to the repository. The configured default PDF can use the shorter link:
+
+```text
+https://cashmurb.github.io/flippy/reader.html
+```
+
+Other PDFs use a longer link because their PDF address and settings are
+included in the URL.
 
 ## Download options
 

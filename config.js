@@ -12,5 +12,5 @@ window.LEAF_CONFIG = {
   appUrl: 'https://cashmurb.github.io/flippy/',
   brand: 'Flippy',
   maxMb: 300,
-  defaultPdf: ''
+  defaultPdf: 'intimacy.pdf'
 };
